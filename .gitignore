@@ -2,3 +2,7 @@
 .bundle
 Gemfile.lock
 pkg/*
+.DS_Store
+*.pyc
+*.pyo
+.venv
