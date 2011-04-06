@@ -1,0 +1,3 @@
+module CdnHelpers
+  # Your code goes here...
+end
