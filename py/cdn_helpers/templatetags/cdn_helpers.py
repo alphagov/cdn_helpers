@@ -1,6 +1,7 @@
 from django import template
 from django.conf import settings
 
+@register.tag
 def asset_url(parser, token):
     return AssetUrl(token)
 
