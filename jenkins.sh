@@ -11,4 +11,4 @@ fi
 
 source "/home/jenkins/virtualenvs/${JOB_NAME}/bin/activate"
 
-nosetests -w py/test
+"/home/jenkins/virtualenvs/${JOB_NAME}/bin/nosetests" -w py/test
