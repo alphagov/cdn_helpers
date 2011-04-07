@@ -59,7 +59,7 @@ def asset_url(parser, token):
     url = None
     lookup = None
     if url_or_lookup.startswith(("'", '"')):
-        url = url_or_lookup
+        url = url_or_lookup[1:-1]
     else:
         lookup = url_or_lookup
         
