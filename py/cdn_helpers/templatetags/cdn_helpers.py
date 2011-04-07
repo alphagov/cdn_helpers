@@ -13,9 +13,9 @@ def asset_url(parser, token):
     else:
         lookup = url_or_lookup
         
-    return AssetUrl(url = url, lookup = lookup)
+    return AssetUrlTag(url = url, lookup = lookup)
 
-class AssetUrl(template.Node):
+class AssetUrlTag(template.Node):
     def __init__(self, url = None, lookup = None):
         self.asset_url = url
         if lookup != None:
