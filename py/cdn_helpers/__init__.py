@@ -30,7 +30,7 @@ class memoized(object):
 def memoized_sha1(path, sha1_generator):
     return sha1_generator(path)
     
-class AssetUrl:
+class AssetUrl(object):
     def __init__(self, settings = None):
         self.settings = settings
         
