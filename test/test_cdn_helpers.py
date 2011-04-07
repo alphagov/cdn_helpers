@@ -1,5 +1,5 @@
 import unittest
-import cdn_helpers
+import cdn_helpers.templatetags.asset_url as cdn_helpers
 import os
 
 fixtures_dir = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
