@@ -53,28 +53,8 @@ class AssetUrl(object):
         """Generate, or return cached, SHA1 for the file at path"""
         return sha1_cache(path, sha1_generator)
 
-@register.tag
-def asset_url(parser, token):
-    tag_name, url_or_lookup = token.split_contents()
-    url = None
-    lookup = None
-    if url_or_lookup.startswith(("'", '"')):
-        url = url_or_lookup[1:-1]
-    else:
-        lookup = url_or_lookup
-        
-    return AssetUrlTag(url = url, lookup = lookup)
+asset_url_processor = AssetUrl(settings)
 
-class AssetUrlTag(template.Node):
-    def __init__(self, url = None, lookup = None):
-        self.asset_url = url
-        if lookup != None:
-            self.asset_lookup = template.Variable(lookup)
-        self.url_gen = AssetUrl(settings)
-        
-    def render(self, context):
-        if self.asset_url != None:
-            url_to_process = self.asset_url
-        else:
-            url_to_process = self.asset_lookup.resolve(context)
-        return self.url_gen.process_url(self.asset_url)
+@register.simple_tag
+def asset_url(url):
+    return asset_url_processor.process_url(url)
