@@ -76,6 +76,15 @@ class TestAssetFileLocation(unittest.TestCase):
             os.path.normpath(os.path.join(fixtures_dir, 'images/thing.png'))
         )
 
+    def test_correctly_locates_a_file_when_media_url_is_set(self):
+        self.django_settings['MEDIA_ROOT'] = fixtures_dir
+        self.django_settings['MEDIA_URL'] = '/media_url/'
+
+        self.assertEqual(
+            self.asset_url.file_path_from_url('/media_url/images/thing.png'), 
+            os.path.normpath(os.path.join(fixtures_dir, 'images/thing.png'))
+        )
+
 class TestAssetUrlFromCDN(unittest.TestCase):
     def setUp(self):
         self.django_settings = MockSettings()

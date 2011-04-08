@@ -30,7 +30,12 @@ class AssetUrl(object):
         else:
             return url
         
-    def file_path_from_url(self, url):                                
+    def file_path_from_url(self, url):
+        if hasattr(self.settings, 'MEDIA_URL'):
+            stripped_url = url.lstrip('/')
+            media_url = '%s/' % self.settings.MEDIA_URL.lstrip('/').rstrip('/')
+            if stripped_url.find(media_url) == 0:
+                url = stripped_url[len(media_url) - 1:]
         return os.path.normpath(os.path.join(self.settings.MEDIA_ROOT, url.lstrip('/')))
     
     def generate_sha1(self, file_path):
