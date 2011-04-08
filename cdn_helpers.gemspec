@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "cdn_helpers"
 
   s.files         = Dir[
-    'lib/**/*',
+    'rb/**/*',
     'README.md',
     'Gemfile',
     'Rakefile'
