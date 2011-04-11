@@ -12,3 +12,7 @@ fi
 source "/home/jenkins/virtualenvs/${JOB_NAME}/bin/activate"
 
 PYTHONPATH=py nosetests -w test
+
+source '/usr/local/lib/rvm'
+bundle install --path "/home/jenkins/bundles/${JOB_NAME}" --deployment
+bundle exec rake spec
