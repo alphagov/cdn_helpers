@@ -1,5 +1,6 @@
 require 'digest/sha1'
 require 'pathname'
+require 'uri'
 
 module CdnHelpers
   module AssetPath
