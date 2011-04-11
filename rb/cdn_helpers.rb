@@ -3,6 +3,8 @@ require 'pathname'
 require 'uri'
 
 module CdnHelpers
+  require 'cdn_helpers/railtie' if defined?(Rails)
+
   module AssetPath
     def self.asset_cache
       @@asset_cache ||= {}

@@ -1,4 +1,5 @@
 namespace :cdn do
+  desc "Rewrite CSS files under ./public/ with CDN-friendly URLs"
   task :css_urls => :environment do
     require 'cdn_helpers'
     require 'pathname'
