@@ -14,5 +14,6 @@ source "/home/jenkins/virtualenvs/${JOB_NAME}/bin/activate"
 PYTHONPATH=py nosetests -w test
 
 source '/usr/local/lib/rvm'
-bundle install --path "/home/jenkins/bundles/${JOB_NAME}" --deployment
-bundle exec rake spec
+export GEM_HOME="/home/jenkins/bundles/${JOB_NAME}"
+mkdir -p "${GEM_HOME}"
+bundle install && bundle exec rake spec
