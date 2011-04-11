@@ -1,4 +1,6 @@
 require 'digest/sha1'
+require 'pathname'
+
 module CdnHelpers
   module AssetPath
     def self.asset_cache
