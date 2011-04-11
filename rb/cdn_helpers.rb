@@ -33,6 +33,7 @@ module CdnHelpers
     def self.process_css_file(css_file, css_file_path, public_root_path, url_prefix = '/')
       out_lines = []
       css_file_path = Pathname.new(css_file_path).realpath
+      public_root_path = Pathname.new(public_root_path)
       context_path = css_file_path.parent
       while line = css_file.gets
         out_lines << line.gsub(/url\(["']?([^"'\)]+)["']?\)/) do |url_match|
