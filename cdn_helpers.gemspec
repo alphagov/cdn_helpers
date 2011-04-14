@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors       = ["Matt Patterson"]
   s.email         = ["matt@alphagov.co.uk"]
   s.homepage      = "http://github.com/alphagov/cdn_helpers"
-  s.summary       = %q{TODO: Write a gem summary}
-  s.description   = %q{TODO: Write a gem description}
+  s.summary       = %q{Provides CDN helper methods for Rails}
+  s.description   = %q{Provides CDN helper methods for Rails}
 
   s.rubyforge_project = "cdn_helpers"
 
