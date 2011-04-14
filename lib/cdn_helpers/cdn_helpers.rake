@@ -11,8 +11,7 @@ namespace :cdn do
       logger.level = Logger::INFO
       FileList['public/**/*.css'].each do |css_file_path|
         css_file_path = Pathname.new(css_file_path).realpath
-        public_path = Rails.root.join('public')
-        CdnHelpers::CssRewriter.rewrite_css_file(logger, css_file_path, public_path)
+        CdnHelpers::CssRewriter.rewrite_css_file(logger, css_file_path, public_root_path)
       end
     rescue Errno::ENOENT
     end
