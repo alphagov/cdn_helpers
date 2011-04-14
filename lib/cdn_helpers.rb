@@ -11,12 +11,16 @@ module CdnHelpers
     end
 
     def self.call(path)
-      hash_file(path, Rails.root.join('public'))
+      hash_file(path, Rails.root.join('public'), Rails.logger)
     end
 
-    def self.hash_file(path, public_root_path)
+    def self.hash_file(path, public_root_path, logger)
       unless asset_cache.has_key?(path)
         file_path = public_root_path.join(path.sub(/^\//, '')).to_s
+        unless File.file?(file_path)
+          logger.warn("Cannot rewrite URL for #{path}: File not found")
+          return path
+        end
         sha1 = Digest::SHA1.file(file_path).hexdigest
         extension = File.extname(path)
         return asset_cache[path] = path + "/#{sha1[0..7]}#{extension}"
@@ -32,7 +36,7 @@ module CdnHelpers
       File.open(css_file_path, 'w') { |f| f.write(output) }
     end
 
-    def self.process_css_file(css_file, css_file_path, public_root_path, url_prefix = '/')
+    def self.process_css_file(logger, css_file, css_file_path, public_root_path, url_prefix = '/')
       out_lines = []
       css_file_path = Pathname.new(css_file_path).realpath
       public_root_path = Pathname.new(public_root_path)
@@ -48,7 +52,7 @@ module CdnHelpers
               local_url = local_url.to_s[(url_prefix.length - 1)..-1] if local_url.to_s.index(url_prefix) == 0
               url = public_root_path.join(local_url[1..-1]).cleanpath.relative_path_from(public_root_path).to_s
             end
-            "url(#{CdnHelpers::AssetPath.hash_file("/" + url, public_root_path)})"
+            "url(#{CdnHelpers::AssetPath.hash_file("/" + url, public_root_path, logger)})"
           else
             "url(#{$1})"
           end
