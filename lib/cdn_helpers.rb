@@ -30,7 +30,7 @@ module CdnHelpers
   end
   
   module CssRewriter
-    def self.rewrite_css_file(css_file_path, public_root_path, url_prefix = '/')
+    def self.rewrite_css_file(logger, css_file_path, public_root_path, url_prefix = '/')
       css_file = File.open(css_file_path)
       output = process_css_file(css_file, css_file_path, public_root_path, url_prefix)
       File.open(css_file_path, 'w') { |f| f.write(output) }
