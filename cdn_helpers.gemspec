@@ -14,13 +14,13 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "cdn_helpers"
 
   s.files         = Dir[
-    'rb/**/*',
+    'lib/**/*',
     'README.md',
     'Gemfile',
     'Rakefile'
   ]
   s.test_files    = Dir['spec/**/*']
-  s.require_paths = ["rb"]
+  s.require_paths = ["lib"]
 
   s.add_dependency 'actionpack', '~> 3.0.0'
   s.add_development_dependency 'rake', '~> 0.8.0'

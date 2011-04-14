@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('rb/cdn_helpers.rb', File.dirname(__FILE__))
+require File.expand_path('lib/cdn_helpers.rb', File.dirname(__FILE__))
 
 css_file_path = ARGV[0]
 css_file = File.open(css_file_path)
