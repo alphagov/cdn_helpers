@@ -41,15 +41,20 @@ in `settings.py` add cdn_helpers to your list of installed apps:
         'cdn_helpers'
     )
 
+in your local-development `local_settings.py`:
+
+    APP_DEPLOYMENT_ENV = 'local'   # (disables CDN url generation)
+    CDN_HOSTS = []
+
 in the appropriate `local_settings.py`:
 
     APP_DEPLOYMENT_ENV = 'dev'   # (or staging, production)
     CDN_HOSTS = ['cdn1', 'cdn2'] # (as appropriate for the environment)
-    
+    SHARED_PUBLIC_ROOT = "/path/to/shared/assets" # (i.e. where Static's public dir is)
     
 in templates use the `asset_url` helper:
 
     <img src="{% asset_url "/images/thing.png" %}">
-    <img src="{% asset_url thing.image.src %}">
+    <img src="{% asset_url thing.image.url %}">
 
 The app provides the `cdn_css` command for `manage.py`. This uses the Ruby script process_css to do the heavy lifting, but relies on the `MEDIA_ROOT` and `MEDIA_URL` settings in `settings.py` to tell where to look and how to construct the URLs.
