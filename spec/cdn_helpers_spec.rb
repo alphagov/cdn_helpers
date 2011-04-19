@@ -37,6 +37,11 @@ describe CdnHelpers::CssRewriter do
       should == 'background-image: url(/eg.txt/13c1f102.txt)'
   end
 
+  it "correctly rewrites an absolute local URL given a non-/ URL prefix" do
+    CdnHelpers::CssRewriter.process_css_file(MockLogger.new, StringIO.new('background-image: url("/prefix/eg.txt")'), css_path, public_root_path, '/prefix/').
+      should == 'background-image: url(/prefix/eg.txt/13c1f102.txt)'
+  end
+
   it "correctly ignores an http:// url" do
     CdnHelpers::CssRewriter.process_css_file(MockLogger.new, StringIO.new('background-image: url("http://things.com/nice.png")'), css_path, public_root_path).
       should == 'background-image: url(http://things.com/nice.png)'

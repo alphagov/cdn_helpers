@@ -47,13 +47,13 @@ module CdnHelpers
           if URI.parse($1).scheme.nil?
             local_url = Pathname.new($1)
             if local_url.relative?
-              url = context_path.join(local_url).cleanpath.relative_path_from(public_root_path).to_s
+              file_path = context_path.join(local_url).cleanpath.relative_path_from(public_root_path).to_s
             else
               url_prefix = url_prefix + '/' unless url_prefix.rindex('/') == (url_prefix.length - 1)
               local_url = local_url.to_s[(url_prefix.length - 1)..-1] if local_url.to_s.index(url_prefix) == 0
-              url = public_root_path.join(local_url[1..-1]).cleanpath.relative_path_from(public_root_path).to_s
+              file_path = public_root_path.join(local_url[1..-1]).cleanpath.relative_path_from(public_root_path).to_s
             end
-            "url(#{CdnHelpers::AssetPath.hash_file("/" + url, public_root_path, logger)})"
+            "url(#{url_prefix[0..-2]}#{CdnHelpers::AssetPath.hash_file("/" + file_path, public_root_path, logger)})"
           else
             "url(#{$1})"
           end
