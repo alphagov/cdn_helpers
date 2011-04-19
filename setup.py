@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='cdn_helpers',
-      version='0.0.1',
+      version='0.7.0',
       description='CDN Helpers',
       author='Matt Patterson',
       author_email='matt@alphagov.co.uk',
