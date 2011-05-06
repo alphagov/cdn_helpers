@@ -1,6 +1,7 @@
 require 'digest/sha1'
 require 'pathname'
 require 'uri'
+require 'nokogiri'
 
 module CdnHelpers
   require 'cdn_helpers/railtie' if defined?(Rails)
@@ -27,6 +28,43 @@ module CdnHelpers
       end
       asset_cache[path]
     end
+  end
+  
+  module HtmlRewriter
+    def self.rewrite_file(logger, file_path, public_root_path, asset_hosts)
+      html_content = open(file_path).read
+      html = Nokogiri::HTML.parse(html_content)
+      process_document(html, file_path, public_root_path, asset_hosts, logger)  
+      File.open(file_path, 'w') { |f| f << html.to_s }
+    end
+    
+    def self.process_asset_url(href, file_path, public_root_path, logger)
+      local_url = Pathname.new(href)
+      url_prefix = "/"
+      if local_url.relative?
+        logger.warn "We don't yet support relative paths to assets: #{local_url}"
+        return href
+      else
+        local_url = local_url.to_s[(url_prefix.length - 1)..-1] if local_url.to_s.index(url_prefix) == 0
+        file_path = public_root_path.join(local_url[1..-1]).cleanpath.relative_path_from(public_root_path).to_s
+      end
+      return "#{url_prefix[0..-2]}#{CdnHelpers::AssetPath.hash_file("/" + file_path, public_root_path, logger)}"
+    end
+    
+    def self.process_document(html, file_path, public_root_path, asset_hosts, logger)
+      html.search('link[rel=stylesheet]').each do |elem|
+        if URI.parse(elem['href']).scheme.nil?
+          elem['href'] = asset_hosts.sample + process_asset_url(elem['href'], file_path, public_root_path, logger)
+        end
+      end
+      html.search('script[src]').each do |elem|
+        if URI.parse(elem['src']).scheme.nil?
+          elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
+        end
+      end
+      html
+    end
+    
   end
   
   module CssRewriter
