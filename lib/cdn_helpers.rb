@@ -67,6 +67,11 @@ module CdnHelpers
           elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
         end
       end
+      html.search('link[rel="shortcut icon"]').each do |elem|
+        if URI.parse(elem['href']).scheme.nil?
+          elem['href'] = asset_hosts.sample + process_asset_url(elem['href'], file_path, public_root_path, logger)
+        end
+      end
       html
     end
     
