@@ -52,26 +52,21 @@ module CdnHelpers
     end
     
     def self.process_document(html, file_path, public_root_path, asset_hosts, logger)
-      html.search('link[rel=stylesheet]').each do |elem|
-        if URI.parse(elem['href']).scheme.nil?
-          elem['href'] = asset_hosts.sample + process_asset_url(elem['href'], file_path, public_root_path, logger)
+      to_handle = {
+        "link[rel=stylesheet]" => "href",
+        "script[src]" => "src",
+        "img" => "src",
+        'link[rel="shortcut icon"]' => "href"
+      }
+      
+      to_handle.each do |selector, attribute|        
+        html.search(selector).each do |elem|
+          if URI.parse(elem[attribute]).scheme.nil?
+            elem[attribute] = asset_hosts.sample + process_asset_url(elem[attribute], file_path, public_root_path, logger)
+          end
         end
       end
-      html.search('script[src]').each do |elem|
-        if URI.parse(elem['src']).scheme.nil?
-          elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
-        end
-      end
-      html.search('img').each do |elem|
-        if URI.parse(elem['src']).scheme.nil?
-          elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
-        end
-      end
-      html.search('link[rel="shortcut icon"]').each do |elem|
-        if URI.parse(elem['href']).scheme.nil?
-          elem['href'] = asset_hosts.sample + process_asset_url(elem['href'], file_path, public_root_path, logger)
-        end
-      end
+
       html
     end
     
