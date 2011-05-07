@@ -62,6 +62,11 @@ module CdnHelpers
           elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
         end
       end
+      html.search('img').each do |elem|
+        if URI.parse(elem['src']).scheme.nil?
+          elem['src'] = asset_hosts.sample + process_asset_url(elem['src'], file_path, public_root_path, logger)
+        end
+      end
       html
     end
     
