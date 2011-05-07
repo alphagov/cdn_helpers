@@ -66,6 +66,14 @@ module CdnHelpers
           end
         end
       end
+      
+      # The contents of any style elements should be processed as CSS files
+      require 'stringio'
+      html.search('style').each do |elem|
+        pseudo_css_file = StringIO.new(elem.content)
+        processed_css = CssRewriter.process_css_file(logger, pseudo_css_file, file_path, public_root_path, asset_hosts.sample + "/")
+        elem.content = processed_css
+      end
 
       html
     end
@@ -93,7 +101,13 @@ module CdnHelpers
               file_path = context_path.join(local_url).cleanpath.relative_path_from(public_root_path).to_s
             else
               url_prefix = url_prefix + '/' unless url_prefix.rindex('/') == (url_prefix.length - 1)
-              local_url = local_url.to_s[(url_prefix.length - 1)..-1] if local_url.to_s.index(url_prefix) == 0
+
+              if local_url.to_s.index(url_prefix) == 0
+                local_url = local_url.to_s[(url_prefix.length - 1)..-1] 
+              else
+                local_url = local_url.to_s
+              end
+              
               file_path = public_root_path.join(local_url[1..-1]).cleanpath.relative_path_from(public_root_path).to_s
             end
             "url(#{url_prefix[0..-2]}#{CdnHelpers::AssetPath.hash_file("/" + file_path, public_root_path, logger)})"
