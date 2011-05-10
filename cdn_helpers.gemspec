@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name          = "cdn_helpers"
-  s.version       = "0.7.1"
+  s.version       = "0.8.3"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Matt Patterson"]
   s.email         = ["matt@alphagov.co.uk"]
