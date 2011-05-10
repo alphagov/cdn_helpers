@@ -128,7 +128,14 @@ class TestAssetUrlFromCDN(unittest.TestCase):
         self.django_settings['MEDIA_ROOT'] = fixtures_dir
         self.django_settings['APP_DEPLOYMENT_ENV'] = 'dev'
         self.django_settings['CDN_HOSTS'] = ['cdn.host.com']
-        self.assertEqual(self.asset_url.process_url('/h5.png'), 'http://cdn.host.com/h5.png/daf4a94f.png')
+        self.assertEqual(self.asset_url.process_url('/h5.png'), 'http://cdn.host.com/h5.png/daf4a94fX.png')
+
+    def test_cdn_url_created(self):
+        self.django_settings['MEDIA_ROOT'] = fixtures_dir
+        self.django_settings['APP_DEPLOYMENT_ENV'] = 'dev'
+        self.django_settings['CDN_HOSTS'] = ['cdn.host.com']
+        self.django_settings['CDN_HASH_SALT'] = 'Y'
+        self.assertEqual(self.asset_url.process_url('/h5.png'), 'http://cdn.host.com/h5.png/daf4a94fY.png')
 
     def test_cdn_url_returns_unhashed_url_if_file_not_found(self):
         self.django_settings['MEDIA_ROOT'] = fixtures_dir

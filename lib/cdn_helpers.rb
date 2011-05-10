@@ -24,9 +24,17 @@ module CdnHelpers
         end
         sha1 = Digest::SHA1.file(file_path).hexdigest
         extension = File.extname(path)
-        return asset_cache[path] = path + "/#{sha1[0..7]}#{extension}"
+        return asset_cache[path] = path + "/#{sha1[0..7]}#{hash_salt}#{extension}"
       end
       asset_cache[path]
+    end
+    
+    def self.hash_salt
+      @@hash_salt ||= 'X'
+    end
+    
+    def self.set_hash_salt(value)
+      @@hash_salt = value
     end
   end
   

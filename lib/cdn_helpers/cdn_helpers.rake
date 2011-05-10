@@ -5,6 +5,8 @@ namespace :cdn do
     require 'pathname'
     require 'logger'
 
+    CdnHelpers::AssetPath.set_hash_salt(ENV['CDN_HASH_SALT']) if ENV['CDN_HASH_SALT']
+
     begin
       public_root_path = Pathname.new('public').realpath
       logger = Logger.new(STDOUT)

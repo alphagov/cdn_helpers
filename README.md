@@ -58,3 +58,12 @@ in templates use the `asset_url` helper:
     <img src="{% asset_url thing.image.url %}">
 
 The app provides the `cdn_css` command for `manage.py`. This uses the Ruby script process_css to do the heavy lifting, but relies on the `MEDIA_ROOT` and `MEDIA_URL` settings in `settings.py` to tell where to look and how to construct the URLs.
+
+
+Running tests
+=============
+
+bundle exec rake spec
+
+PYTHONPATH=py nosetests -w test
+

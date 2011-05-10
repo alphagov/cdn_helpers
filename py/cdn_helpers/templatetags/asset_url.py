@@ -60,7 +60,7 @@ class AssetUrl(object):
 
     def compose_path(self, path, sha1):
         """Stitch path and hash together"""
-        return path + '/' + sha1[0:8] + os.path.splitext(path)[1]
+        return path + '/' + sha1[0:8] + self.hash_salt() + os.path.splitext(path)[1]
         
     def compose_url(self, uri_path):
         """Stitch hashed path into a CDN url"""
@@ -71,6 +71,11 @@ class AssetUrl(object):
     def fetch_sha1(self, path, sha1_generator):
         """Generate, or return cached, SHA1 for the file at path"""
         return sha1_cache(path, sha1_generator)
+    
+    def hash_salt(self):
+        if hasattr(self.settings, 'CDN_HASH_SALT'):
+            return self.settings.CDN_HASH_SALT
+        return 'X'
 
 asset_url_processor = AssetUrl(settings)
 

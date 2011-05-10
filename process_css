@@ -10,4 +10,5 @@ url_prefix = ARGV[2]
 logger = Logger.new(STDOUT)
 logger.level = Logger::INFO
 
+CdnHelpers::AssetPath.set_hash_salt(ARGV[3]) if ARGV.length > 3
 CdnHelpers::CssRewriter.rewrite_css_file(logger, css_file_path, public_root_path, url_prefix)
