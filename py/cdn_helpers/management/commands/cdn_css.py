@@ -9,5 +9,8 @@ class Command(BaseCommand):
       css_file_paths = glob.glob(os.path.join(settings.MEDIA_ROOT, '**/*.css'))
       
       for css_file_path in css_file_paths:
-          call([path_to_ruby_script, css_file_path, settings.MEDIA_ROOT, settings.MEDIA_URL, settings.CDN_HASH_SALT])
+          args = [path_to_ruby_script, css_file_path, settings.MEDIA_ROOT, settings.MEDIA_URL]
+          if hasattr(settings, 'CDN_HASH_SALT'):
+              args.append(settings.CDN_HASH_SALT)
+          call(args)
       
