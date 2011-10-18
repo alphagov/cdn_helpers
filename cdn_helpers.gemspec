@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name          = "cdn_helpers"
-  s.version       = "0.8.4"
+  s.version       = "0.9"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Matt Patterson"]
   s.email         = ["matt@alphagov.co.uk"]
@@ -22,9 +22,9 @@ Gem::Specification.new do |s|
   s.test_files    = Dir['spec/**/*']
   s.require_paths = ["lib"]
 
-  s.add_dependency 'actionpack', '~> 3.0.0'
+  s.add_dependency 'actionpack'
   s.add_dependency 'nokogiri'
-  
-  s.add_development_dependency 'rake', '~> 0.8.0'
+
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.5.0'
 end
